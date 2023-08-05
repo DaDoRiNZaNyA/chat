@@ -12,14 +12,22 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const server = http.createServer(app);
 const io = socketIO(server);
 
 const rooms = new Map();
 
-app.get("/rooms", (req, res) => {
-  res.json(rooms);
+app.get("/rooms/:id", (req, res) => {
+  const roomId = req.params.id;
+  const obj = rooms.has(roomId)
+    ? {
+        users: [...rooms.get(roomId).get("users").values()],
+        messages: [...rooms.get(roomId).get("messages").values()],
+      }
+    : { users: [], messages: [] };
+  res.json(obj);
 });
 
 app.post("/rooms", (req, res) => {
@@ -41,14 +49,23 @@ io.on("connection", (socket) => {
     socket.join(data.roomId);
     rooms.get(data.roomId).get("users").set(socket.id, data.userName);
     const users = [...rooms.get(data.roomId).get("users").values()];
-    socket.broadcast.to(data.roomId).emit("ROOM:JOINED", users);
+    socket.to(data.roomId).emit("ROOM:SET_USERS", users);
   });
 
-  socket.on("disconnected", () => {
+  socket.on("ROOM:NEW_MESSAGE", ({ roomId, userName, text }) => {
+    const obj = {
+      userName,
+      text,
+    };
+    rooms.get(roomId).get("messages").push();
+    socket.to(roomId).emit("ROOM:NEW_MESSAGE", obj);
+  });
+
+  socket.on("disconnect", () => {
     rooms.forEach((value, roomId) => {
       if (value.get("users").delete(socket.id)) {
-        const users = [...rooms.get(roomId).get("users").values()];
-        socket.broadcast.to(roomId).emit("ROOM:SET_USERS", users);
+        const users = [...value.get("users").values()];
+        socket.to(roomId).emit("ROOM:SET_USERS", users);
       }
     });
   });

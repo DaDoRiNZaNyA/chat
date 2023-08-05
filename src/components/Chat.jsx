@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const Chat = ({users, messages}) => {
+export const Chat = ({ users, messages }) => {
   const [messageValue, setMessageValue] = useState("");
   return (
     <div className="chat">
@@ -9,23 +9,19 @@ export const Chat = ({users, messages}) => {
         <ul>
           {users.map((name, index) => (
             <li key={index}>{name}</li>
-          ))};
+          ))}
         </ul>
       </div>
       <div className="chat-messages">
         <div className="messages">
-          <div className="message">
-            <p>qweqweqweqweqwe</p>
-            <div>
-              <span>1 user</span>
+          {messages.map((message, index) => (
+            <div className="message">
+              <p>{message.text}</p>
+              <div>
+                <span>{message.userName}</span>
+              </div>
             </div>
-          </div>
-          <div className="message">
-            <p>qweqweqweqweqwe</p>
-            <div>
-              <span>1 user</span>
-            </div>
-          </div>
+          ))}
         </div>
         <form>
           <textarea
@@ -33,7 +29,9 @@ export const Chat = ({users, messages}) => {
             onChange={(e) => setMessageValue(e.target.value)}
             className="form-controll"
           ></textarea>
-          <button type="button" className="send-button" rows="3">Send</button>
+          <button type="button" className="send-button" rows="3">
+            Send
+          </button>
         </form>
       </div>
     </div>
