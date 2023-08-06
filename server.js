@@ -6,7 +6,7 @@ const socketIO = require("socket.io");
 const app = express();
 
 const corsOptions = {
-  origin: "https://chat-back-4n4o.onrender.com",
+  origin: "https://dadorin-chat.onrender.com",
   credentials: true,
 };
 
