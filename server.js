@@ -6,7 +6,7 @@ const socketIO = require("socket.io");
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://chat-back-4n4o.onrender.com",
   credentials: true,
 };
 
