@@ -22,6 +22,7 @@ export const JoinBlock = ({onLogin}) => {
     };
     setIsLoading(true);
     await axios.post('https://chat-back-4n4o.onrender.com/rooms', obj);
+    // await axios.post('http://localhost:9999/rooms', obj);
     onLogin(obj);
   } 
 

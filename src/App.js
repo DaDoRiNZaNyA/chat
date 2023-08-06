@@ -30,6 +30,7 @@ function App() {
     socket.emit("ROOM:JOIN", obj);
     const { data } = await axios.get(
       `https://chat-back-4n4o.onrender.com/rooms/${obj.roomId}`
+      // `http://localhost:9999/rooms/${obj.roomId}`
     );
     dispatch({
       type: "SET_DATA",

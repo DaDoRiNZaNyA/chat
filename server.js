@@ -6,6 +6,7 @@ const socketIO = require("socket.io");
 const app = express();
 
 const corsOptions = {
+  // origin: "http://localhost:3000",
   origin: "https://dadorin-chat.onrender.com",
   credentials: true,
 };
