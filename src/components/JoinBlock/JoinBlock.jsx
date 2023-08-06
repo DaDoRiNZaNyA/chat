@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import socket from "../socket";
+import socket from "../../socket";
 import axios from "axios";
+import './JoinBlock.scss';
 
 export const JoinBlock = ({onLogin}) => {
   const [roomId, setRoomId] = useState("");
   const [userName, setUserName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      onEnter();
+    }
+  };
 
   const onEnter = async () => {
     if (!roomId || !userName){
@@ -21,8 +28,8 @@ export const JoinBlock = ({onLogin}) => {
 
   return (
     <div className="join-block">
-      <input type="text" placeholder="Room ID" onChange={e => setRoomId(e.target.value)} value={roomId}></input>
-      <input type="text" placeholder="Имя" onChange={e => setUserName(e.target.value)} value={userName}></input>
+      <input  onKeyDown={handleKeyDown} type="text" placeholder="Room ID" onChange={e => setRoomId(e.target.value)} value={roomId}></input>
+      <input onKeyDown={handleKeyDown} type="text" placeholder="Имя" onChange={e => setUserName(e.target.value)} value={userName}></input>
       <button disabled={isLoading} onClick={onEnter}>{isLoading ? "ВХОД..." : "ВОЙТИ"}</button>
     </div>
   );

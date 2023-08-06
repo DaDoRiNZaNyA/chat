@@ -57,8 +57,14 @@ io.on("connection", (socket) => {
       userName,
       text,
     };
-    rooms.get(roomId).get("messages").push();
-    socket.to(roomId).emit("ROOM:NEW_MESSAGE", obj);
+    if (rooms.has(roomId)) {
+      const room = rooms.get(roomId);
+      if (!room.has("messages")) {
+        room.set("messages", []);
+      }
+      room.get("messages").push(obj);
+      socket.to(roomId).emit("ROOM:NEW_MESSAGE", obj);
+    }
   });
 
   socket.on("disconnect", () => {
