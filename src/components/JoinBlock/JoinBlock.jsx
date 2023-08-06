@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import socket from "../../socket";
 import axios from "axios";
 import './JoinBlock.scss';
 
@@ -22,7 +21,7 @@ export const JoinBlock = ({onLogin}) => {
       roomId, userName
     };
     setIsLoading(true);
-    await axios.post('http://localhost:9999/rooms', obj);
+    await axios.post('https://chat-back-4n4o.onrender.com/rooms', obj);
     onLogin(obj);
   } 
 

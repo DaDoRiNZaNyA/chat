@@ -29,7 +29,7 @@ function App() {
     });
     socket.emit("ROOM:JOIN", obj);
     const { data } = await axios.get(
-      `http://localhost:9999/rooms/${obj.roomId}`
+      `https://chat-back-4n4o.onrender.com/rooms/${obj.roomId}`
     );
     dispatch({
       type: "SET_DATA",
